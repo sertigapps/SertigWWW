@@ -11,6 +11,7 @@ $subject = "Recuperar Acceso para ".$data->app;
 
 if($data->emailaddress!=''){
 
+        include('../config_aws.php');
     try{    // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(
             array(

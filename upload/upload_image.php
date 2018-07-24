@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
         if(in_array($ext,$valid_formats))
         {
         // File size validation
-        //include('config_s3.php');
+        include('../config_aws.php');
         //Rename image name.
         // Bucket Name
         $bucket="sertigs3";
