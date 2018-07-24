@@ -7,9 +7,6 @@ $to = $_GET["emailaddress"];
 $subject = "Contrasena temporal creada ";
 
 if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
-    //AWS access info
-    if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAJRZMXDWWCOOTBWUQ');
-    if (!defined('awsSecretKey')) define('awsSecretKey', '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');
 
     try{    // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(

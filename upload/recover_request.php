@@ -10,9 +10,6 @@ $to = $data->emailaddress;
 $subject = "Recuperar Acceso para ".$data->app;
 
 if($data->emailaddress!=''){
-//AWS access info
-if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAJRZMXDWWCOOTBWUQ');
-if (!defined('awsSecretKey')) define('awsSecretKey', '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');
 
     try{    // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(

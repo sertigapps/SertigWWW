@@ -29,9 +29,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
         // Bucket Name
         $bucket="sertigs3";
 
-        //AWS access info
-        if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAJCFLGU5LWL7PGRDA');
-        if (!defined('awsSecretKey')) define('awsSecretKey', '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');
 
         // Set Amazon s3 credentials
         $client = S3Client::factory(
