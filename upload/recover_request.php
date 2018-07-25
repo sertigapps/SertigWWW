@@ -36,7 +36,8 @@ if($data->emailaddress!=''){
         $items = $result["Items"];
         if($items[0]){
             $iduser = $items[0]["id"]["N"];
-            $message = str_replace('{{EMAILADDRES}}',$data->emailaddress,$message) "<html><head><title>Recupera tu contraseña</title></head><body><p>Sigue el enlace para recuperar acceso a tu cuenta</p><table><tr><th>Username / Email ".$data->emailaddress."</th></tr><tr><td> <a href=\"http://www.sertigapps.com/upload/reset_password.php?id=".$iduser."&emailaddress=".$data->emailaddress."\">Recuperar</a> </td></tr></table></body></html>";
+            $message = file_get_contents("emailrecovery.txt");
+            $message = str_replace('{{EMAILADDRES}}',$data->emailaddress,$message); 
             $message = str_replace('{{link}}',"http://www.sertigapps.com/upload/reset_password.php?id=".$iduser."&emailaddress=".$data->emailaddress,$message)
             // Always set content-type when sending HTML email
             $headers = "MIME-Version: 1.0" . "\r\n";
