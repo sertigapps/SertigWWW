@@ -38,7 +38,7 @@ if($data->emailaddress!=''){
             $iduser = $items[0]["id"]["N"];
             $message = file_get_contents("emailrecovery.txt");
             $message = str_replace('{{EMAILADDRES}}',$data->emailaddress,$message); 
-            $message = str_replace('{{link}}',"http://www.sertigapps.com/upload/reset_password.php?id=".$iduser."&emailaddress=".$data->emailaddress,$message)
+            $message = str_replace('{{link}}',"http://www.sertigapps.com/upload/reset_password.php?id=".$iduser."&emailaddress=".$data->emailaddress,$message);
             // Always set content-type when sending HTML email
             $headers = "MIME-Version: 1.0" . "\r\n";
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
