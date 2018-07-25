@@ -62,7 +62,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         if(!$iduser){
                 echo "Contraseña generada sin exito";
         }else{
-                echo "Contraseña generada con exito";
+                echo file_get_contents("passwordseted.txt");
         }
     }
     catch(DynamoDbException $error){
