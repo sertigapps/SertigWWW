@@ -47,7 +47,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             )
         ));
         $items = $result["Items"];
-        if($items[0] && $items[0]["request_password"]["N"] == "1"){
+        if($items[0] && array_key_exists("request_password",$items[0]) && $items[0]["request_password"]["N"] == "1"){
 
             $result = $client->updateItem(array(
                 // TableName is required

@@ -3,6 +3,7 @@ require 'vendor/autoload.php';
      use Aws\DynamoDb\DynamoDbClient;
      use Aws\DynamoDb\Exception\DynamoDbException;
  header("Access-Control-Allow-Origin: *");
+$data = json_decode($request_body);
 $request_body = file_get_contents('php://input');
 $data = json_decode($request_body);
 $to = $data->emailaddress;
@@ -41,12 +42,13 @@ if($data->emailaddress!=''){
                 'Key' => array(
                     // Associative array of custom 'AttributeName' key names
                     'id' => array(
-                        'N' => $items[0]["id"])),
+                        'N' => $items[0]["id"]["N"])),
                 'AttributeUpdates' => array(
                     // Associative array of custom 'AttributeName' key names
                     'request_password' => array(
                         'Value' => array(
                             'N' => "1")))));
+
             $iduser = $items[0]["id"]["N"];
             $message = file_get_contents("emailrecovery.txt");
             $message = str_replace('{{EMAILADDRESS}}',$data->emailaddress,$message); 
