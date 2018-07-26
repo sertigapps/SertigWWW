@@ -47,7 +47,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             )
         ));
         $items = $result["Items"];
-        if($items[0]){
+        if($items[0] && $items[0]["request_password"]["N"] == "1"){
 
             $result = $client->updateItem(array(
                 // TableName is required
@@ -61,7 +61,12 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
                     // Associative array of custom 'AttributeName' key names
                     'password' => array(
                         'Value' => array(
-                            'S' => $response)))));
+                            'S' => $response)),
+                    'request_password' => array(
+                        'Value' => array(
+                            'N' => "0")),
+                        
+                        )));
             $iduser = $items[0]["id"]["N"];
             $message = file_get_contents("newpassword.txt");
             $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message);
@@ -85,7 +90,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         }
 
         if(!$iduser){
-                echo "Contraseña generada sin exito";
+                echo "Ooops algo salio mal";
         }else{
                 echo file_get_contents("passwordseted.txt");
         }

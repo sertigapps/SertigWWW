@@ -35,6 +35,19 @@ if($data->emailaddress!=''){
         ));
         $items = $result["Items"];
         if($items[0]){
+            $updateitem = $client->updateItem(array(
+                // TableName is required
+                'TableName' => 'person',
+                // Key is required
+                'Key' => array(
+                    // Associative array of custom 'AttributeName' key names
+                    'id' => array(
+                        'N' => $items[0]["id"])),
+                'AttributeUpdates' => array(
+                    // Associative array of custom 'AttributeName' key names
+                    'request_password' => array(
+                        'Value' => array(
+                            'N' => "1")))));
             $iduser = $items[0]["id"]["N"];
             $message = file_get_contents("emailrecovery.txt");
             $message = str_replace('{{EMAILADDRESS}}',$data->emailaddress,$message); 
