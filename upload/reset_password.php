@@ -70,9 +70,13 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             // Always set content-type when sending HTML email
             $headers = "MIME-Version: 1.0" . "\r\n";
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= "X-Priority: 3\r\n";
+            $headers .= "X-Mailer: PHP". phpversion() ."\r\n" 
 
             // More headers
-            $headers .= 'From: <info@sertigapps.com>' . "\r\n";
+            $headers .= "Organization: Sertig Apps\r\n";
+            $headers .= 'From: Chapin Bay<info@sertigapps.com>' . "\r\n";
+            $headers .= 'Reply-To: Chapin Bay<info@sertigapps.com>' . "\r\n";
 
             mail($to,$subject,$message,$headers);
         }
