@@ -24,7 +24,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             // FunctionName is required
             'FunctionName' => 'Encrypt',
             'InvocationType' => 'RequestResponse',
-            'Payload' => '{"action":"encrypt","text":\"'.$newpass.'\"}'
+            'Payload' => '{"action":"encrypt","text":"'.$newpass.'"}'
         ));
          // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(
