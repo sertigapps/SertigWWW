@@ -20,7 +20,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         );
         
         $newpass = 'labarraapp';
-        $resultpass = $client->invoke(array(
+        $resultpass = $lamdba->invoke(array(
             // FunctionName is required
             'FunctionName' => 'Encrypt',
             'InvocationType' => 'RequestResponse',
