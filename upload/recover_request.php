@@ -3,7 +3,6 @@ require 'vendor/autoload.php';
      use Aws\DynamoDb\DynamoDbClient;
      use Aws\DynamoDb\Exception\DynamoDbException;
  header("Access-Control-Allow-Origin: *");
-$data = json_decode($request_body);
 $request_body = file_get_contents('php://input');
 $data = json_decode($request_body);
 $to = $data->emailaddress;
