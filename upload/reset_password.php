@@ -1,6 +1,7 @@
 <?php
       require 'vendor/autoload.php';
       use Aws\DynamoDb\DynamoDbClient;
+      use Aws\DynamoDb\LambdaClient;
       use Aws\DynamoDb\Exception\DynamoDbException;
 header("Access-Control-Allow-Origin: *");
 $to = $_GET["emailaddress"];
