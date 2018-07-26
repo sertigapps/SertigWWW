@@ -9,7 +9,23 @@ $subject = "Contrasena temporal creada ";
 if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
 
         include('../config_aws.php');
-    try{    // Set Amazon s3 credentials
+    try{  
+        $lamdba = LambdaClient::factory(
+            array(
+            'key'    => awsAccessKey,
+            'secret' => awsSecretKey,
+            'region' => 'us-east-1'
+            )
+        );
+        
+        $newpass = 'labarraapp';
+        $resultpass = $client->invoke(array(
+            // FunctionName is required
+            'FunctionName' => 'Encrypt',
+            'InvocationType' => 'RequestResponse',
+            'Payload' => '{"action":"encrypt","text":\"'.$newpass.'\"}'
+        ));
+         // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(
             array(
             'key'    => awsAccessKey,
@@ -30,6 +46,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         ));
         $items = $result["Items"];
         if($items[0]){
+
             $result = $client->updateItem(array(
                 // TableName is required
                 'TableName' => 'person',
@@ -42,9 +59,11 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
                     // Associative array of custom 'AttributeName' key names
                     'password' => array(
                         'Value' => array(
-                            'S' => 'a02dae2144a3289a106e')))));
+                            'S' => $resultpass)))));
             $iduser = $items[0]["id"]["N"];
-            $message = "<html><head><title>Contraseña temporal creada</title></head><body><p>Tu Contraseña temporal ha sido creada</p><table><tr><th>Username / Email ".$_GET["emailaddress"]."</th></tr><tr><td> Nueva Contraseña : labarraapp</td></tr></table></body></html>";
+            $message = file_get_contents("emailrecovery.txt");
+            $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message); 
+            $message = str_replace('{{PASSWORD}}',$newpass,$message);
 
             // Always set content-type when sending HTML email
             $headers = "MIME-Version: 1.0" . "\r\n";
