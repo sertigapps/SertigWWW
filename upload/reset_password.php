@@ -10,7 +10,7 @@ $subject = "Contrasena temporal creada ";
 if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
 
         include('../config_aws.php');
-    try{  
+    try{
         $lamdba = LambdaClient::factory(
             array(
             'key'    => awsAccessKey,
@@ -18,14 +18,15 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             'region' => 'us-east-1'
             )
         );
-        
-        $newpass = 'labarraapp';
+
+        $newpass = generateRandomString();
         $resultpass = $lamdba->invoke(array(
             // FunctionName is required
             'FunctionName' => 'Encrypt',
             'InvocationType' => 'RequestResponse',
             'Payload' => '{"action":"encrypt","text":"'.$newpass.'"}'
         ));
+        $response = $resultpass->getAll()["result"];
          // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(
             array(
@@ -60,10 +61,10 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
                     // Associative array of custom 'AttributeName' key names
                     'password' => array(
                         'Value' => array(
-                            'S' => $resultpass)))));
+                            'S' => $response)))));
             $iduser = $items[0]["id"]["N"];
             $message = file_get_contents("emailrecovery.txt");
-            $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message); 
+            $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message);
             $message = str_replace('{{PASSWORD}}',$newpass,$message);
 
             // Always set content-type when sending HTML email
@@ -93,4 +94,13 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
 else{
     echo "Contraseña no generada ";
 };
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 ?>
