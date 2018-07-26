@@ -63,7 +63,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
                         'Value' => array(
                             'S' => $response)))));
             $iduser = $items[0]["id"]["N"];
-            $message = file_get_contents("emailrecovery.txt");
+            $message = file_get_contents("newpassword.txt");
             $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message);
             $message = str_replace('{{PASSWORD}}',$newpass,$message);
 
@@ -72,7 +72,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
             // More headers
-            $headers .= 'From: <mailer@sertigapps.com>' . "\r\n";
+            $headers .= 'From: <info@sertigapps.com>' . "\r\n";
 
             mail($to,$subject,$message,$headers);
         }
