@@ -20,7 +20,9 @@ if($data->emailaddress!=''){
             'region' => 'us-east-1'
             )
         );
-
+        $conn = pg_connect(connString);
+        $resultSql = pg_query($conn, "SELECT * FROM person where emailaddress ='$data->emailaddress'");
+        var_dump($resultSql);
         $result = $client->query(array(
             'TableName'     => 'person',
             'IndexName'     => 'emailaddress-password-index',
