@@ -22,36 +22,11 @@ if($data->emailaddress!=''){
         );
         $conn = pg_connect(connString);
         $resultSql = pg_query($conn, "SELECT * FROM person where emailaddress ='$data->emailaddress'");
-        var_dump(pg_fetch_all($resultSql));
-        $result = $client->query(array(
-            'TableName'     => 'person',
-            'IndexName'     => 'emailaddress-password-index',
-            'KeyConditions' => array(
-                'emailaddress' => array(
-                    'AttributeValueList' => array(
-                        array('S' => $data->emailaddress)
-                    ),
-                    'ComparisonOperator' => 'EQ'
-                )
-            )
-        ));
-        $items = $result["Items"];
+        $items = pg_fetch_all($resultSql) ;
         if($items[0]){
-            $updateitem = $client->updateItem(array(
-                // TableName is required
-                'TableName' => 'person',
-                // Key is required
-                'Key' => array(
-                    // Associative array of custom 'AttributeName' key names
-                    'id' => array(
-                        'N' => $items[0]["id"]["N"])),
-                'AttributeUpdates' => array(
-                    // Associative array of custom 'AttributeName' key names
-                    'request_password' => array(
-                        'Value' => array(
-                            'N' => "1")))));
-
-            $iduser = $items[0]["id"]["N"];
+            $iduser = $items[0]["id"];
+            $resultSql = pg_query($conn, "UPDATE person set request_password = 1 where id ='$iduser'");
+            pg_close($dbconn);
             $message = file_get_contents("emailrecovery.txt");
             $message = str_replace('{{EMAILADDRESS}}',$data->emailaddress,$message); 
             $message = str_replace('{{link}}',"http://www.sertigapps.com/upload/reset_password.php?id=".$iduser."&emailaddress=".$data->emailaddress,$message);
