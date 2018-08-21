@@ -37,10 +37,10 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         );
         $iduser = $_GET['id'];
         $conn = pg_connect(connString);
-        $resultSql = pg_query($conn, "SELECT * FROM person where emailaddress ='$iduser'");
+        $resultSql = pg_query($conn, "SELECT * FROM person where id ='$iduser'");
         $items = pg_fetch_all($resultSql) ;
         if($items[0] && array_key_exists("request_password",$items[0]) && $items[0]["request_password"]["N"] == "1"){
-            
+
             $iduser = $items[0]["id"];
             $resultSql = pg_query($conn, "UPDATE person set request_password = '$response' , request_password = 1 where id ='$iduser'");
             pg_close($conn);
