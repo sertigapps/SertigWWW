@@ -35,39 +35,16 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             'region' => 'us-east-1'
             )
         );
-        $result = $client->query(array(
-            'TableName'     => 'person',
-            'KeyConditions' => array(
-                'id' => array(
-                    'AttributeValueList' => array(
-                        array('N' => $_GET['id'])
-                    ),
-                    'ComparisonOperator' => 'EQ'
-                )
-            )
-        ));
-        $items = $result["Items"];
+        $iduser = $_GET['id'];
+        $conn = pg_connect(connString);
+        $resultSql = pg_query($conn, "SELECT * FROM person where emailaddress ='$iduser'");
+        $items = pg_fetch_all($resultSql) ;
         if($items[0] && array_key_exists("request_password",$items[0]) && $items[0]["request_password"]["N"] == "1"){
+            
+            $iduser = $items[0]["id"];
+            $resultSql = pg_query($conn, "UPDATE person set request_password = '$response' , request_password = 1 where id ='$iduser'");
+            pg_close($conn);
 
-            $result = $client->updateItem(array(
-                // TableName is required
-                'TableName' => 'person',
-                // Key is required
-                'Key' => array(
-                    // Associative array of custom 'AttributeName' key names
-                    'id' => array(
-                        'N' => $_GET["id"])),
-                'AttributeUpdates' => array(
-                    // Associative array of custom 'AttributeName' key names
-                    'password' => array(
-                        'Value' => array(
-                            'S' => $response)),
-                    'request_password' => array(
-                        'Value' => array(
-                            'N' => "0")),
-                        
-                        )));
-            $iduser = $items[0]["id"]["N"];
             $message = file_get_contents("newpassword.txt");
             $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message);
             $message = str_replace('{{PASSWORD}}',$newpass,$message);

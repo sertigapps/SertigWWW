@@ -26,7 +26,7 @@ if($data->emailaddress!=''){
         if($items[0]){
             $iduser = $items[0]["id"];
             $resultSql = pg_query($conn, "UPDATE person set request_password = 1 where id ='$iduser'");
-            pg_close($dbconn);
+            pg_close($conn);
             $message = file_get_contents("emailrecovery.txt");
             $message = str_replace('{{EMAILADDRESS}}',$data->emailaddress,$message); 
             $message = str_replace('{{link}}',"http://www.sertigapps.com/upload/reset_password.php?id=".$iduser."&emailaddress=".$data->emailaddress,$message);
