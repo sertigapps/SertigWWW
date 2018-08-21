@@ -22,7 +22,7 @@ if($data->emailaddress!=''){
         );
         $conn = pg_connect(connString);
         $resultSql = pg_query($conn, "SELECT * FROM person where emailaddress ='$data->emailaddress'");
-        var_dump($resultSql);
+        var_dump(pg_fetch_all($resultSql));
         $result = $client->query(array(
             'TableName'     => 'person',
             'IndexName'     => 'emailaddress-password-index',
