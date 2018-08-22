@@ -35,11 +35,11 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             'region' => 'us-east-1'
             )
         );
-        $iduser = $_GET['id'];
+        $idusers = $_GET['id'];
         $conn = pg_connect(connString);
-        $resultSql = pg_query($conn, "SELECT * FROM person where id ='$iduser'");
+        $resultSql = pg_query($conn, "SELECT * FROM person where id ='$idusers'");
         $items = pg_fetch_all($resultSql) ;
-        if($items[0] && array_key_exists("request_password",$items[0]) && $items[0]["request_password"]["N"] == "1"){
+        if($items[0] && array_key_exists("request_password",$items[0]) && $items[0]["request_password"] == 1){
 
             $iduser = $items[0]["id"];
             $resultSql = pg_query($conn, "UPDATE person set request_password = '$response' , request_password = 1 where id ='$iduser'");
