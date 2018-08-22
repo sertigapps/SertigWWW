@@ -42,7 +42,7 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         if($items[0] && array_key_exists("request_password",$items[0]) && $items[0]["request_password"] == 1){
 
             $iduser = $items[0]["id"];
-            $resultSql = pg_query($conn, "UPDATE person set request_password = '$response' , request_password = 1 where id ='$iduser'");
+            $resultSql = pg_query($conn, "UPDATE person set password = '$response' , request_password = 1 where id ='$iduser'");
             pg_close($conn);
 
             $message = file_get_contents("newpassword.txt");
