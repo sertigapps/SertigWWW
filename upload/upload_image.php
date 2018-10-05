@@ -97,7 +97,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'StorageClass' => 'REDUCED_REDUNDANCY'
                 ));
                 unlink("thumb/thumb_".$name);
-                $labels = $client->detectLabels([
+                $labels = $rClient->detectLabels([
                     'Image' => [ // REQUIRED
                         'S3Object' => [
                             'Bucket' => $bucket,
