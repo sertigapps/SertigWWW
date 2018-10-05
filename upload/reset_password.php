@@ -15,7 +15,8 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             array(
             'key'    => awsAccessKey,
             'secret' => awsSecretKey,
-            'region' => 'us-east-1'
+            'region' => 'us-east-1',
+            'version' => 'latest'
             )
         );
 
@@ -32,7 +33,8 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             array(
             'key'    => awsAccessKey,
             'secret' => awsSecretKey,
-            'region' => 'us-east-1'
+            'region' => 'us-east-1',
+            'version' => 'latest'
             )
         );
         $idusers = $_GET['id'];

@@ -17,7 +17,8 @@ if($data->emailaddress!=''){
             array(
             'key'    => awsAccessKey,
             'secret' => awsSecretKey,
-            'region' => 'us-east-1'
+            'region' => 'us-east-1',
+            'version' => 'latest'
             )
         );
         $conn = pg_connect(connString);
