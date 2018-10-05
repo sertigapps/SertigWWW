@@ -2,6 +2,7 @@
     // Include the SDK using the Composer autoloader
    require 'vendor/autoload.php';
      use Aws\S3\S3Client;
+     use Aws\Rekognition\RekognitionClient;
      use Aws\S3\Exception\S3Exception;
 
 
