@@ -36,7 +36,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
             array(
             'key'    => awsAccessKey,
             'secret' => awsSecretKey,
-            'region' => 'us-east-1'
+            'region' => 'us-east-1',
+            'version' => 'latest'
             )
         );
         $image_name_actual =$name;
