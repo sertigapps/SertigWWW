@@ -40,6 +40,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
             'version' => 'latest'
             )
         );
+        $rClient =RekognitionClient::factory(
+            array(
+            'key'    => awsAccessKey,
+            'secret' => awsSecretKey,
+            'region' => 'us-east-1',
+            'version' => 'latest'
+            )
+        );
         $image_name_actual =$name;
 
         try {
@@ -89,6 +97,15 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'StorageClass' => 'REDUCED_REDUNDANCY'
                 ));
                 unlink("thumb/thumb_".$name);
+                $labels = $client->detectLabels([
+                    'Image' => [ // REQUIRED
+                        'S3Object' => [
+                            'Bucket' => $bucket,
+                            'Name' => $_POST['sertig_app']."/". $image_name_actual
+                        ],
+                    ]
+                ]);
+                var_dump($labels);
                 $message = "{\"success\":\"S3 Upload Successful.\"}";
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
