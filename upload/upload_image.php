@@ -105,7 +105,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                         ],
                     ]
                 ]);
-                var_dump($labels);
+                $englishLables = [];
+                foreach($labels['Labels'] as $label){
+                    $englishLables[] = $label['Name'];
+                }
+                var_dump(implode(' ',$englishLables));
                 $message = "{\"success\":\"S3 Upload Successful.\"}";
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
