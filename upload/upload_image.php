@@ -35,7 +35,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
         $client = S3Client::factory(
             array(
             'key'    => awsAccessKey,
-            'secret' => awsSecretKey
+            'secret' => awsSecretKey,
+            'region' => 'us-east-1'
             )
         );
         $image_name_actual =$name;
