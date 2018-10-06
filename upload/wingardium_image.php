@@ -6,7 +6,7 @@
      use Aws\S3\Exception\S3Exception;
 
 
-include('image_validation.php'); // getExtension Method
+include('lumos_image_validation.php'); // getExtension Method
 $valid = true;
 if(!$_POST['sertig_app']||!$_POST['sertig_token']||!$_POST['sertig_email']){
         $message = "{\"error\":true,\"message\":\"token and email not defined\"}";
@@ -33,14 +33,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
 
         // Set Amazon s3 credentials
         $client = S3Client::factory(
-            array(
-            'key'    => awsAccessKey,
-            'secret' => awsSecretKey,
-            'region' => 'us-east-1',
-            'version' => 'latest'
-            )
-        );
-        $rClient =RekognitionClient::factory(
             array(
             'key'    => awsAccessKey,
             'secret' => awsSecretKey,
@@ -97,19 +89,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'StorageClass' => 'REDUCED_REDUNDANCY'
                 ));
                 unlink("thumb/thumb_".$name);
-                $labels = $rClient->detectLabels([
-                    'Image' => [ // REQUIRED
-                        'S3Object' => [
-                            'Bucket' => $bucket,
-                            'Name' => $_POST['sertig_app']."/". $image_name_actual
-                        ],
-                    ]
-                ]);
-                $englishLables = [];
-                foreach($labels['Labels'] as $label){
-                    $englishLables[] = $label['Name'];
-                }
-                var_dump(implode(' ',$englishLables));
                 $message = "{\"success\":\"S3 Upload Successful.\"}";
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
