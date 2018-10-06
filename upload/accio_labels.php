@@ -3,6 +3,7 @@
    require 'vendor/autoload.php';
      use Aws\S3\S3Client;
      use Aws\Rekognition\RekognitionClient;
+     use Aws\Translate\TranslateClient;
      use Aws\S3\Exception\S3Exception;
 
 
@@ -30,6 +31,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
             'version' => 'latest'
             )
         );
+        $tClient =TranslateClient::factory(
+            array(
+            'key'    => awsAccessKey,
+            'secret' => awsSecretKey,
+            'region' => 'us-east-1',
+            'version' => 'latest'
+            )
+        );
         $image_name_actual =$name;
 
         try {
@@ -41,13 +50,21 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                             'Bucket' => $bucket,
                             'Name' => $angularJSData['sertig_app']."/". $angularJSData['image_url']
                         ],
+                        'MinConfidence' => 95,
                     ]
                 ]);
                 $englishLables = [];
                 foreach($labels['Labels'] as $label){
                     $englishLables[] = $label['Name'];
                 }
-                $message = implode(' ',$englishLables);
+                $message = implode(',',$englishLables);
+                
+                $resultT = $client->translateText([
+                    'SourceLanguageCode' => 'en', // REQUIRED
+                    'TargetLanguageCode' => 'es', // REQUIRED
+                    'Text' =>  $message, // REQUIRED
+                ]);
+                $message = $resultT;
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
                 echo $e->getMessage();
