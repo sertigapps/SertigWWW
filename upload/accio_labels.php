@@ -8,7 +8,10 @@
 
 include('lumos_image_validation.php'); // getExtension Method
 $valid = true;
-if(!$_POST['sertig_app']||!$_POST['sertig_token']||!$_POST['sertig_email']||!$_POST['url_image']){
+$angularJSData = json_decode(file_get_contents("php://input"));
+$angularJSData = (array)$angularJSData;
+
+if(!$angularJSData['sertig_app']||!$angularJSData['sertig_token']||!$angularJSData['sertig_email']||!$angularJSData['url_image']){
         $message = "{\"error\":true,\"message\":\"token and email not defined\"}";
     $valid = false;
 }
@@ -36,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'Image' => [ // REQUIRED
                         'S3Object' => [
                             'Bucket' => $bucket,
-                            'Name' => $_POST['sertig_app']."/". $_POST['url_image']
+                            'Name' => $angularJSData['sertig_app']."/". $angularJSData['url_image']
                         ],
                     ]
                 ]);
