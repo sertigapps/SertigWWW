@@ -64,15 +64,15 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'TargetLanguageCode' => 'es', // REQUIRED
                     'Text' =>  $message, // REQUIRED
                 ]);
-                $message = $resultT->get('TranslatedText');
+                $message =  "{\"error\":false,\"message\":\"".$resultT->get('TranslatedText')."\"}";
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
-                echo $e->getMessage();
+                 $message =  "{\"error\":true,\"message\":\"".$e->getMessage()."\"}";
             }
 
             } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
-                echo $e->getMessage();
+                 $message =  "{\"error\":true,\"message\":\"".$e->getMessage()."\"}";
             }
 }
 echo $message;
