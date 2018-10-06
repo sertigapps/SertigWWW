@@ -11,7 +11,7 @@ $valid = true;
 $angularJSData = json_decode(file_get_contents("php://input"));
 $angularJSData = (array)$angularJSData;
 
-if(! isset($angularJSData['sertig_app']) ||! isset($angularJSData['sertig_token']) ||! isset($angularJSData['sertig_email']) ||! isset($angularJSData['url_image'])){
+if(! isset($angularJSData['sertig_app']) ||! isset($angularJSData['sertig_token']) ||! isset($angularJSData['sertig_email']) ||! isset($angularJSData['image_url'])){
         $message = "{\"error\":true,\"message\":\"token and email not defined\"}";
     $valid = false;
 }
@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'Image' => [ // REQUIRED
                         'S3Object' => [
                             'Bucket' => $bucket,
-                            'Name' => $angularJSData['sertig_app']."/". $angularJSData['url_image']
+                            'Name' => $angularJSData['sertig_app']."/". $angularJSData['image_url']
                         ],
                     ]
                 ]);
