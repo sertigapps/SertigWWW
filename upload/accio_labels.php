@@ -11,7 +11,7 @@ $valid = true;
 $angularJSData = json_decode(file_get_contents("php://input"));
 $angularJSData = (array)$angularJSData;
 
-if(!$angularJSData['sertig_app']||!$angularJSData['sertig_token']||!$angularJSData['sertig_email']||!$angularJSData['url_image']){
+if(! isset($angularJSData['sertig_app']) ||! isset($angularJSData['sertig_token']) ||! isset($angularJSData['sertig_email']) ||! isset($angularJSData['url_image'])){
         $message = "{\"error\":true,\"message\":\"token and email not defined\"}";
     $valid = false;
 }
