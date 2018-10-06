@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                 }
                 $message = implode(',',$englishLables);
                 
-                $resultT = $client->translateText([
+                $resultT = $tClient->translateText([
                     'SourceLanguageCode' => 'en', // REQUIRED
                     'TargetLanguageCode' => 'es', // REQUIRED
                     'Text' =>  $message, // REQUIRED
