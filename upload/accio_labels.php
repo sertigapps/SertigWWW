@@ -47,11 +47,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                 $labels = $rClient->detectLabels([
                     'Image' => [ // REQUIRED
                         'S3Object' => [
-                            'Bucket' => $bucket,
-                            'Name' => $angularJSData['sertig_app']."/". $angularJSData['image_url']
+                                'Bucket' => $bucket,
+                                'Name' => $angularJSData['sertig_app']."/". $angularJSData['image_url']
+                            ]
                         ],
-                        'MinConfidence' => 95,
-                    ]
+                    'MinConfidence' => 95,
                 ]);
                 $englishLables = [];
                 foreach($labels['Labels'] as $label){
@@ -64,7 +64,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'TargetLanguageCode' => 'es', // REQUIRED
                     'Text' =>  $message, // REQUIRED
                 ]);
-                $message = $resultT;
+                $message = $resultT->get('TranslatedText');
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
                 echo $e->getMessage();
