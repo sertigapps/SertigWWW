@@ -69,7 +69,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     'Text' =>  $message, // REQUIRED
                 ]);
                 $message =  "{\"error\":false,\"message\":\"".$resultT->get('TranslatedText')."\"}";
-                $message = strtr( $message, $unwanted_array )
+                $message = strtr( $message, $unwanted_array );
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
                  $message =  "{\"error\":true,\"message\":\"".$e->getMessage()."\"}";
