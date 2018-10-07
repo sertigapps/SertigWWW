@@ -51,7 +51,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                                 'Name' => $angularJSData['sertig_app']."/". $angularJSData['image_url']
                             ]
                         ],
-                    'MinConfidence' => 95,
+                    'MinConfidence' => 75,
                 ]);
                 $englishLables = [];
                 $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
@@ -62,14 +62,18 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                 foreach($labels['Labels'] as $label){
                     $englishLables[] = $label['Name'] ;
                 }
-                $message = implode(',',$englishLables);
-                $resultT = $tClient->translateText([
-                    'SourceLanguageCode' => 'en', // REQUIRED
-                    'TargetLanguageCode' => 'es', // REQUIRED
-                    'Text' =>  $message, // REQUIRED
-                ]);
-                $message =  "{\"error\":false,\"message\":\"".$resultT->get('TranslatedText')."\"}";
-                $message = strtr( $message, $unwanted_array );
+                if ( count($englishLables) > 0 ) {
+                    $message = implode(',',$englishLables);
+                    $resultT = $tClient->translateText([
+                        'SourceLanguageCode' => 'en', // REQUIRED
+                        'TargetLanguageCode' => 'es', // REQUIRED
+                        'Text' =>  $message, // REQUIRED
+                    ]);
+                    $message =  "{\"error\":false,\"message\":\"".$resultT->get('TranslatedText')."\"}";
+                    $message = strtr( $message, $unwanted_array );
+                } else {
+                    $message = "{\"error\":false,\"message\":\"notag\"}";
+                }
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
                  $message =  "{\"error\":true,\"message\":\"".$e->getMessage()."\"}";
