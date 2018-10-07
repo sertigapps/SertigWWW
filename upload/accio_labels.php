@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                             'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
                             'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
                 foreach($labels['Labels'] as $label){
-                    $englishLables[] = $label['Name'], $unwanted_array ); ;
+                    $englishLables[] = $label['Name'] ;
                 }
                 $message = implode(',',$englishLables);
                 $resultT = $tClient->translateText([
