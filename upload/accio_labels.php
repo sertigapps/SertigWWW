@@ -63,13 +63,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                     $englishLables[] = $label['Name'], $unwanted_array ); ;
                 }
                 $message = implode(',',$englishLables);
-                $message = strtr( $message, $unwanted_array )
                 $resultT = $tClient->translateText([
                     'SourceLanguageCode' => 'en', // REQUIRED
                     'TargetLanguageCode' => 'es', // REQUIRED
                     'Text' =>  $message, // REQUIRED
                 ]);
                 $message =  "{\"error\":false,\"message\":\"".$resultT->get('TranslatedText')."\"}";
+                $message = strtr( $message, $unwanted_array )
                 } catch (S3Exception $e) {
                 // Catch an S3 specific exception.
                  $message =  "{\"error\":true,\"message\":\"".$e->getMessage()."\"}";
