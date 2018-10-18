@@ -27,7 +27,9 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             'InvocationType' => 'RequestResponse',
             'Payload' => '{"action":"encrypt","text":"'.$newpass.'"}'
         ));
-        $response = $resultpass->getAll()["result"];
+        $result = json_decode($resultpass->get('Payload')->__toString());
+        $response =$result->result;
+
          // Set Amazon s3 credentials
         $client = DynamoDbClient::factory(
             array(
