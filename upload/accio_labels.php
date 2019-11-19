@@ -17,6 +17,7 @@
 
 include('lumos_image_validation.php'); // getExtension Method
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 $valid = true;
 $angularJSData = json_decode(file_get_contents("php://input"));
 $angularJSData = (array)$angularJSData;
