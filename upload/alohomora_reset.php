@@ -4,6 +4,7 @@
       use Aws\Lambda\LambdaClient;
       use Aws\DynamoDb\Exception\DynamoDbException;
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 $to = $_GET["emailaddress"];
 $subject = "Contrasena temporal creada ";
 
