@@ -8,11 +8,12 @@ $data = json_decode($request_body);
 $request_body = file_get_contents('php://input');
 $data = json_decode($request_body);
 $to = "lrglm16@gmail.com";
+$subject = "Fil 4:13 Lead";
 
 
         include('../config_aws.php');
    
-            $message = 'Nombre : ' . $data->name . ' <br>' . 'Email : ' . $data->email . ' <br>' . 'Phone : ' . $data->phone . ' <br>' . 'Description : ' . $data->description . ' <br>' ;
+            $message = 'Nombre : ' . $_POST['name'] . ' <br>' . 'Email : ' . $_POST['email'] . ' <br>' . 'Phone : ' . $_POST['phone'] . ' <br>' . 'Description : ' . $_POST['description'] . ' <br>' ;
             // Always set content-type when sending HTML email
             // Always set content-type when sending HTML email
             $headers = "MIME-Version: 1.0" . "\r\n";
