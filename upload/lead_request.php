@@ -12,7 +12,7 @@ $to = "lrglm16@gmail.com";
 
         include('../config_aws.php');
    
-            $message = 'Nombre : ' . $data->name . ' <br>' . 'Email : ' . $data->email . ' <br>' . 'Phone : ' . $data->phone . ' <br>' . 'Description : ' . $data->description . ' <br>' .;
+            $message = 'Nombre : ' . $data->name . ' <br>' . 'Email : ' . $data->email . ' <br>' . 'Phone : ' . $data->phone . ' <br>' . 'Description : ' . $data->description . ' <br>' ;
             // Always set content-type when sending HTML email
             // Always set content-type when sending HTML email
             $headers = "MIME-Version: 1.0" . "\r\n";
