@@ -4,7 +4,6 @@ require 'vendor/autoload.php';
      use Aws\DynamoDb\Exception\DynamoDbException;
  header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
-$data = json_decode($request_body);
 $request_body = file_get_contents('php://input');
 $data = json_decode($request_body);
 $to = "lrglm16@gmail.com";
