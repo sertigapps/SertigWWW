@@ -32,14 +32,6 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
         $response =$result->result;
 
          // Set Amazon s3 credentials
-        $client = DynamoDbClient::factory(
-            array(
-            'key'    => awsAccessKey,
-            'secret' => awsSecretKey,
-            'region' => 'us-east-1',
-            'version' => 'latest'
-            )
-        );
         $idusers = $_GET['id'];
         $conn = pg_connect(connString);
         $resultSql = pg_query($conn, "SELECT * FROM person where id ='$idusers'");
@@ -54,18 +46,17 @@ if($_GET["emailaddress"]!='' &&$_GET["id"]!=''){
             $message = str_replace('{{EMAILADDRESS}}',$_GET["emailaddress"],$message);
             $message = str_replace('{{PASSWORD}}',$newpass,$message);
 
-            // Always set content-type when sending HTML email
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= "X-Priority: 3\r\n";
-            $headers .= "X-Mailer: PHP". phpversion() ."\r\n";
-
-            // More headers
-            $headers .= "Organization: Sertig Apps\r\n";
-            $headers .= 'From: Chapin Bay<info@sertigapps.com>' . "\r\n";
-            $headers .= 'Reply-To: Chapin Bay<info@sertigapps.com>' . "\r\n";
-
-            mail($to,$subject,$message,$headers);
+            $email = new \SendGrid\Mail\Mail(); 
+            $email->setFrom("informacion@sertigapps.com", "Sertig Apps");
+            $email->setSubject($subject);
+            $email->addTo($to, $items[0]->name . " " . $items[0]->lastname);
+            $email->addContent("text/html", $message);
+            $sendgrid = new \SendGrid(SENDGRID_API_KEY);
+            try {
+                $response = $sendgrid->send($email);
+            } catch (Exception $e) {
+                $iduser = false;
+            }
         }
         else{
             $iduser=false;

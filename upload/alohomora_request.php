@@ -23,12 +23,11 @@ if($data->emailaddress!=''){
             $message = file_get_contents("emailrecovery.txt");
             $message = str_replace('{{EMAILADDRESS}}',$data->emailaddress,$message); 
             $message = str_replace('{{link}}',"http://www.sertigapps.com/upload/alohomora_reset.php?id=".$iduser."&emailaddress=".$data->emailaddress,$message);
-            mail($to,$subject,$message,$headers);
             $email = new \SendGrid\Mail\Mail(); 
             $email->setFrom("informacion@sertigapps.com", "Sertig Apps");
             $email->setSubject($subject);
-            $email->addTo($data->emailaddress, $data->name . " " . $data->lastname);
-            $email->addContent("text/plain", $message);
+            $email->addTo($data->emailaddress, $items[0]->name . " " . $items[0]->lastname);
+            $email->addContent("text/html", $message);
             $sendgrid = new \SendGrid(SENDGRID_API_KEY);
             try {
                 $response = $sendgrid->send($email);

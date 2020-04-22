@@ -13,19 +13,16 @@ $subject = "Fil 4:13 Lead";
         include('../config_aws.php');
    
             $message = 'Nombre : ' . $_POST['name'] . ' <br>' . 'Email : ' . $_POST['email'] . ' <br>' . 'Phone : ' . $_POST['phone'] . ' <br>' . 'Description : ' . $_POST['description'] . ' <br>' ;
-            // Always set content-type when sending HTML email
-            // Always set content-type when sending HTML email
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= "X-Priority: 3\r\n";
-            $headers .= "X-Mailer: PHP". phpversion() ."\r\n"; 
-
-            // More headers
-            $headers .= "Organization: Sertig Apps\r\n";
-            $headers .= 'From: Sertig Appps<info@sertigapps.com>' . "\r\n";
-            $headers .= 'Reply-To: Sertig Apps<info@sertigapps.com>' . "\r\n";
-
-            mail($to,$subject,$message,$headers);
-       
+            $email = new \SendGrid\Mail\Mail(); 
+            $email->setFrom("informacion@sertigapps.com", "Sertig Apps");
+            $email->setSubject($subject);
+            $email->addTo($to, "Fil 4:13");
+            $email->addContent("text/plain", $message);
+            $sendgrid = new \SendGrid(SENDGRID_API_KEY);
+            try {
+                $response = $sendgrid->send($email);
+            } catch (Exception $e) {
+                $iduser = false;
+            }
 
 ?>

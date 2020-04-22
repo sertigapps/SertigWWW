@@ -70,7 +70,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && $valid)
                         imagegif($targetLayer,"thumb/thumb_". $name);
                         break;
 
-
                     case IMAGETYPE_JPEG:
                         $imageResourceId = imagecreatefromjpeg($tmp);
                         $targetLayer = imageResize($imageResourceId,$sourceProperties[0],$sourceProperties[1]);
